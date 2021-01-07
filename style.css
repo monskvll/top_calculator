@@ -1,5 +1,11 @@
-.calculator {
+.calculator__panels {
     display: flex;    
+}
+
+.calculator__display {
+    border: .2em solid black;
+    width: 22.4em;    
+    padding: 1em;
 }
 
 .calculator__numbers {
@@ -13,6 +19,7 @@
     align-items: center;
     justify-content: space-evenly;
     padding: 1em;
+    border: .2em solid black;
 }
 
 .calculator__number {
@@ -30,8 +37,7 @@
     justify-content: space-evenly;
     align-items: center;
     grid-gap: 1em;
-    
-
+    border: .2em solid black;
 }
 
 .calculator__operator {
@@ -39,12 +45,12 @@
 }
 
 .calculator__button {
-    border: 3px solid black;
+    border: .2em solid black;
     width: 5em;
     height: 5em;    
 }
 
 .calculator__equal {
-    width: 32em;    
+    width: 33em;    
     align-self: flex-end;
 }

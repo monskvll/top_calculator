@@ -5,33 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    
 </head>
 <body>
-    <span>Display placeholder</span>
     <div class="calculator">
-        <div class="calculator__numbers">
-            <button class="calculator__number calculator__button">7</button>
-            <button class="calculator__number calculator__button">8</button>
-            <button class="calculator__number calculator__button">9</button>
-            <button class="calculator__number calculator__button">4</button>
-            <button class="calculator__number calculator__button">5</button>
-            <button class="calculator__number calculator__button">6</button>
-            <button class="calculator__number calculator__button">1</button>
-            <button class="calculator__number calculator__button">2</button>
-            <button class="calculator__number calculator__button">3</button>
-            <button class="calculator__number calculator__button">0</button>
-            <button class="calculator__number calculator__button">.</button>
-            <button class="calculator__number calculator__button">C</button>
+        <div id="display" class="calculator__display"> </div>
+        <div class="calculator__panels">
+            <div class="calculator__numbers">
+                <button id="seven" class="calculator__number calculator__button">7</button>
+                <button id="eight" class="calculator__number calculator__button">8</button>
+                <button id="nine" class="calculator__number calculator__button">9</button>
+                <button id="four" class="calculator__number calculator__button">4</button>
+                <button id="five" class="calculator__number calculator__button">5</button>
+                <button id="six" class="calculator__number calculator__button">6</button>
+                <button id="one" class="calculator__number calculator__button">1</button>
+                <button id="two" class="calculator__number calculator__button">2</button>
+                <button id="three" class="calculator__number calculator__button">3</button>
+                <button id="zero" class="calculator__number calculator__button">0</button>
+                <button id="dot" class="calculator__number calculator__button">.</button>
+                <button id="clear" class="calculator__number calculator__button">C</button>
+            </div>
+            <div class="calculator__operators">
+                <button id="plus" class="calculator__operator calculator__button">+</button>
+                <button id="minus" class="calculator__operator calculator__button">-</button>
+                <button id="cross" class="calculator__operator calculator__button">x</button>
+                <button id="slash" class="calculator__operator calculator__button">/</button>
+            </div>
+                    
         </div>
-        <div class="calculator__operators">
-            <button class="calculator__operator calculator__button">+</button>
-            <button class="calculator__operator calculator__button">-</button>
-            <button class="calculator__operator calculator__button">x</button>
-            <button class="calculator__operator calculator__button">/</button>
-        </div>
-                
+        <button class="calculator__equal calculator__button">=</button>
     </div>
-    <button class="calculator__equal calculator__button">=</button>
+
+    <script src="script.js"></script>
 </body>
 </html>
