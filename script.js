@@ -1,26 +1,26 @@
-function add(x, y) {
-    return x + y;
+let getOperation = {
+    add: function(x, y) {
+        return x + y;
+    },
+
+    subtract: function(x, y) {
+        return x - y;
+    },
+
+    multiply: function(x, y) {
+        return x * y;
+    },
+
+    divide: function(x, y) {
+        return x / y;
+    }
 }
 
-function subtract(x, y) {
-    return x - y;
-}
-
-function multiply(x, y) {
-    return x * y;
-}
-
-function divide(x, y) {
-    return x / y;
-}
-
-function operate() {
-    
-}
+const numberButton = document.querySelectorAll('button.calculator__number');
 
 function displayPress()  {
-    document.getElementById("one").addEventListener("click", function() {
-        document.getElementById("display").textContent += "1";
+    document.getElementById("one").addEventListener("click", function() {        
+        document.getElementById("display").textContent += "1";        
     });
 
     document.getElementById("two").addEventListener("click", function() {
@@ -64,8 +64,70 @@ function displayPress()  {
     });
 
     document.getElementById("clear").addEventListener("click", function() {
-        document.getElementById("display").textContent = "";
+        document.getElementById("display").textContent = "";        
+    });
+
+}
+
+function operate() {
+
+    let operatorButtons = document.querySelectorAll('button.calculator__operator');
+
+    operatorButtons.forEach((operatorButton) => {
+        operatorButton.addEventListener('click', (e) => {            
+
+            let displayed = document.getElementById("display").textContent;
+
+            console.log('displayed:' + displayed);
+
+            document.getElementById("display").textContent = "";
+
+            function resetVariable() {
+                displayed = 0;
+            }
+
+            
+
+            if (e.target.id === "plus") {
+                document.getElementById("equal").addEventListener("click", function () {
+                    let displayedFirst = displayed;                
+                    let displayedSecond = document.getElementById("display").textContent;
+                    let displayedResult = getOperation.add(parseFloat(displayedFirst), parseFloat(displayedSecond));    
+                    document.getElementById("display").textContent = displayedResult;
+                    console.log('Displayed result:' + displayedResult);
+                    resetVariable();
+                });     
+            }
+        })        
     });
 }
 
+
+
+
+
+
+
+    /*
+    document.getElementById('plus').addEventListener("click", function() {
+
+        let displayed = document.getElementById("display").textContent;
+
+        console.log(displayed);
+
+        document.getElementById("display").textContent = "";
+        
+        
+
+        document.getElementById("equal").addEventListener("click", function () {
+            let displayedFirst = displayed;                
+            let displayedSecond = document.getElementById("display").textContent;     
+            document.getElementById("display").textContent = add(parseInt(displayedFirst), parseInt(displayedSecond));        
+        });
+                                      
+    });    
+    */
+
+
 displayPress();
+operate();
