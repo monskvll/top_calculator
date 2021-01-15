@@ -1,3 +1,5 @@
+const numberButtons = document.querySelectorAll('button.calculator__number');
+
 let getOperation = {
     add: function(x, y) {
         return x + y;
@@ -16,8 +18,9 @@ let getOperation = {
     }
 }
 
-const numberButton = document.querySelectorAll('button.calculator__number');
 
+
+/*
 function displayPress()  {
     document.getElementById("one").addEventListener("click", function() {        
         document.getElementById("display").textContent += "1";        
@@ -68,25 +71,38 @@ function displayPress()  {
     });
 
 }
+*/
 
-function operate() {
+function displayPress() {
+    numberButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+            document.getElementById('display').textContent += button.textContent;
+        })
+    });
+}
+
+function clearVariables() {
+    document.getElementById("clear").addEventListener("click", function() {
+        document.getElementById("display").textContent = "";
+        displayedFirst = "";
+        displayedSecond = "";        
+    });
+}
+
+function operate() {    
 
     let operatorButtons = document.querySelectorAll('button.calculator__operator');
 
     operatorButtons.forEach((operatorButton) => {
         operatorButton.addEventListener('click', (e) => {            
 
-            let displayed = document.getElementById("display").textContent;
-
-            console.log('displayed:' + displayed);
+            let displayed = document.getElementById("display").textContent;            
 
             document.getElementById("display").textContent = "";
 
             function resetVariable() {
                 displayed = 0;
-            }
-
-            
+            }            
 
             if (e.target.id === "plus") {
                 document.getElementById("equal").addEventListener("click", function () {
@@ -95,8 +111,22 @@ function operate() {
                     let displayedResult = getOperation.add(parseFloat(displayedFirst), parseFloat(displayedSecond));    
                     document.getElementById("display").textContent = displayedResult;
                     console.log('Displayed result:' + displayedResult);
-                    resetVariable();
+                    resetVariable();                    
                 });     
+            }
+
+            if (e.target.id === "minus") {
+                document.getElementById("equal").addEventListener("click", function () {
+                    let displayedFirst = displayed;                
+                    let displayedSecond = document.getElementById("display").textContent;
+
+                    console.log(displayedFirst);
+                    console.log(displayedSecond);
+                    let displayedResult = getOperation.subtract(parseFloat(displayedFirst), parseFloat(displayedSecond));    
+                    document.getElementById("display").textContent = displayedResult;
+                    console.log('Displayed result:' + displayedResult);
+                    resetVariable();                    
+                });                
             }
         })        
     });
@@ -131,3 +161,4 @@ function operate() {
 
 displayPress();
 operate();
+clearVariables();
