@@ -1,113 +1,111 @@
 const numberButtons = document.querySelectorAll('button.calculator__number');
+const operatorButtons = document.querySelectorAll('button.calculator__operator');
 
 let getOperation = {
-    add: function(x, y) {
-        return x + y;
+    add: function (x, y) {
+        return parseFloat(x) + parseFloat(y);
     },
 
-    subtract: function(x, y) {
-        return x - y;
+    subtract: function (x, y) {
+        return parseFloat(x) - parseFloat(y);
     },
 
-    multiply: function(x, y) {
-        return x * y;
+    multiply: function (x, y) {
+        return parseFloat(x) * parseFloat(y);
     },
 
-    divide: function(x, y) {
-        return x / y;
+    divide: function (x, y) {
+        return parseFloat(x) / parseFloat(y);
     }
 }
 
-function displayPress() {
-    numberButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            document.getElementById('display').textContent += button.textContent;
-        })
-    });
-}
+numberButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        document.getElementById('display').textContent += button.textContent;
+    })
+});
 
-function clearVariables() {
-    document.getElementById("clear").addEventListener("click", function() {
-        document.getElementById("display").textContent = "";
-        displayedFirst = "";
-        displayedSecond = "";        
-    });
-}
+document.addEventListener('keydown', (e) => {
 
-function operate() {    
+    if (e.key >= 0 || e.key <= 9 || e.key === '.') {
+        document.getElementById('display').textContent += e.key;
 
-    let operatorButtons = document.querySelectorAll('button.calculator__operator');
+        if (e.key === '.') {
+            document.getElementById('dot').disabled = true;
+        }
+    }
+
+    if (e.key === 'Delete') {
+        clearDisplay();
+    }
+});
+
+document.getElementById('dot').addEventListener('click', function () {
+    document.getElementById('display').textContent += '.';
+
+    if (document.getElementById('display').textContent.includes('.')) {
+        document.getElementById('dot').disabled = true;
+    }
+});
+
+
+function enableDot() {
+    document.getElementById('dot').disabled = false;
+};
+
+function clearDisplay() {
+    document.getElementById('display').textContent = '';
+    displayedFirst = '0';
+    displayedSecond = '0';
+};
+
+document.getElementById('clear').addEventListener('click', function () {
+    clearDisplay();
+});
+
+
+function operate() {
+
+    let displayedFirst = '0';
+    let operation = '';
 
     operatorButtons.forEach((operatorButton) => {
-        operatorButton.addEventListener('click', (e) => {            
+        operatorButton.addEventListener('click', (e) => {
+            enableDot();
+            displayedFirst = document.getElementById('display').textContent;
+            operation = e.target.id;
 
-            let displayed = document.getElementById("display").textContent;            
+            document.getElementById('display').textContent = '';
+        })
+    });
 
-            document.getElementById("display").textContent = "";
+    document.getElementById('equal').addEventListener('click', function () {
 
-            function resetVariable() {
-                displayed = 0;
-            }              
+        enableDot();
 
-            function resetVariableCross() {
-                displayed = 1;
+        let displayedSecond = document.getElementById('display').textContent;
+
+        if (operation === 'plus') {
+            document.getElementById('display').textContent = getOperation.add(displayedFirst, displayedSecond);
+        }
+
+        if (operation === 'minus') {
+            document.getElementById('display').textContent = getOperation.subtract(displayedFirst, displayedSecond);
+        }
+
+        if (operation === 'cross') {
+            document.getElementById('display').textContent = getOperation.multiply(displayedFirst, displayedSecond);
+        }
+
+        if (operation === 'slash') {
+            document.getElementById('display').textContent = getOperation.divide(displayedFirst, displayedSecond);
+
+            if (displayedSecond === '0') {
+                document.getElementById('display').textContent = ':(';
             }
-
-            function resetVariableSlash() {
-                displayed = 1;
-            }
-
-
-            if (e.target.id === "plus") {
-                document.getElementById("equal").addEventListener("click", function () {
-                    let displayedFirst = displayed;                
-                    let displayedSecond = Math.abs(document.getElementById("display").textContent);                    
-                    let displayedResult = getOperation.add(parseFloat(displayedFirst), parseFloat(displayedSecond));    
-                    document.getElementById("display").textContent = displayedResult;
-                    console.log('Displayed result:' + displayedResult);
-
-                    resetVariable();                    
-                });     
-            }
-
-            if (e.target.id === "minus") {
-                document.getElementById("equal").addEventListener("click", function () {
-                    let displayedFirst = displayed;                
-                    let displayedSecond = Math.abs(document.getElementById("display").textContent);
-                    let displayedResult = getOperation.subtract(parseFloat(displayedFirst), parseFloat(displayedSecond));    
-                    document.getElementById("display").textContent = displayedResult;
-                    
-                    resetVariable();                                       
-                });                
-            }
-
-            if (e.target.id === "cross") {
-                document.getElementById("equal").addEventListener("click", function () {
-                    let displayedFirst = displayed;                
-                    let displayedSecond = Math.abs(document.getElementById("display").textContent);                    
-                    let displayedResult = getOperation.multiply(parseFloat(displayedFirst), parseFloat(displayedSecond));    
-                    document.getElementById("display").textContent = displayedResult;
-
-                    resetVariableCross();
-                });     
-            }
-
-            if (e.target.id === "slash") {
-                document.getElementById("equal").addEventListener("click", function () {
-                    let displayedFirst = displayed;                
-                    let displayedSecond = Math.abs(document.getElementById("display").textContent);
-                    console.log(displayedFirst);
-                    console.log(displayedSecond);
-                    let displayedResult = getOperation.divide(parseFloat(displayedFirst), parseFloat(displayedSecond));    
-                    document.getElementById("display").textContent = displayedResult;
-                    console.log('Displayed result:' + displayedResult);
-                    resetVariableSlash();
-                });     
-            }
-        })        
+        }
     });
 }
 
-displayPress();
+clearDisplay();
 operate();
-clearVariables();

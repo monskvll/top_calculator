@@ -1,11 +1,19 @@
+.calculator {    
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    margin: 10em 0;    
+}
+
 .calculator__panels {
-    display: flex;    
+    display: flex;        
 }
 
 .calculator__display {
     border: .2em solid black;
     width: 22.4em;    
     padding: 1em;
+    min-height: 1.25em;
 }
 
 .calculator__numbers {
@@ -48,9 +56,9 @@
     border: .2em solid black;
     width: 5em;
     height: 5em;    
+    font-weight: 900;
 }
 
 .calculator__equal {
-    width: 33em;    
-    align-self: flex-end;
+    width: 29.7em;    
 }
