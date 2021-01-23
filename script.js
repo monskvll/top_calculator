@@ -26,11 +26,13 @@ numberButtons.forEach((button) => {
 });
 
 document.addEventListener('keydown', (e) => {
-
-    if (e.key >= 0 || e.key <= 9 || e.key === '.') {
+    if (e.key >= 0 || e.key <= 9) {
         document.getElementById('display').textContent += e.key;
+    }
 
-        if (e.key === '.') {
+    if (e.key === '.') {
+        if (!document.getElementById('display').textContent.includes('.')) {
+            document.getElementById('display').textContent += e.key;
             document.getElementById('dot').disabled = true;
         }
     }
@@ -48,21 +50,29 @@ document.getElementById('dot').addEventListener('click', function () {
     }
 });
 
-
 function enableDot() {
     document.getElementById('dot').disabled = false;
 };
+
+function enableEqual() {
+    document.getElementById('equal').disabled = false;
+};
+
+function disableEqual() {
+    document.getElementById('equal').disabled = true;
+}
 
 function clearDisplay() {
     document.getElementById('display').textContent = '';
     displayedFirst = '0';
     displayedSecond = '0';
+    enableDot();
+    enableEqual();
 };
 
 document.getElementById('clear').addEventListener('click', function () {
     clearDisplay();
 });
-
 
 function operate() {
 
@@ -72,17 +82,55 @@ function operate() {
     operatorButtons.forEach((operatorButton) => {
         operatorButton.addEventListener('click', (e) => {
             enableDot();
+            enableEqual();
             displayedFirst = document.getElementById('display').textContent;
             operation = e.target.id;
-
             document.getElementById('display').textContent = '';
         })
     });
 
+    document.addEventListener('keydown', (e) => {
+        if (e.key === "+" || e.key === "-" || e.key === '*' || e.key === '/') {
+            enableDot();
+            enableEqual();
+            displayedFirst = document.getElementById('display').textContent;
+            operation = e.key;
+            document.getElementById('display').textContent = '';
+        }
+
+        if (e.key === "Enter") {
+
+            if (!document.getElementById('equal').disabled) {
+
+                let displayedSecond = document.getElementById('display').textContent;
+
+                if (operation === '+') {
+                    document.getElementById('display').textContent = getOperation.add(displayedFirst, displayedSecond);
+                }
+
+                if (operation === '-') {
+                    document.getElementById('display').textContent = getOperation.subtract(displayedFirst, displayedSecond);
+                }
+
+                if (operation === '*') {
+                    document.getElementById('display').textContent = getOperation.multiply(displayedFirst, displayedSecond);
+                }
+
+                if (operation === '/') {
+                    document.getElementById('display').textContent = getOperation.divide(displayedFirst, displayedSecond);
+
+                    if (displayedSecond === '0') {
+                        document.getElementById('display').textContent = ':(';
+                    }
+                }
+
+                disableEqual();
+            }
+        }
+
+    });
+
     document.getElementById('equal').addEventListener('click', function () {
-
-        enableDot();
-
         let displayedSecond = document.getElementById('display').textContent;
 
         if (operation === 'plus') {
@@ -104,8 +152,13 @@ function operate() {
                 document.getElementById('display').textContent = ':(';
             }
         }
+
+        disableEqual();
     });
+
+
+
+    enableDot();
 }
 
-clearDisplay();
 operate();
