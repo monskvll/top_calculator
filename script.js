@@ -77,46 +77,48 @@ document.getElementById('clear').addEventListener('click', function () {
 function operate() {
 
     let displayedFirst = '0';
+    let displayedSecond = '0'
     let operation = '';
 
     operatorButtons.forEach((operatorButton) => {
         operatorButton.addEventListener('click', (e) => {
-            enableDot();
-            enableEqual();
             displayedFirst = document.getElementById('display').textContent;
             operation = e.target.id;
             document.getElementById('display').textContent = '';
+            enableDot();
+            enableEqual();
         })
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === "+" || e.key === "-" || e.key === '*' || e.key === '/') {
-            enableDot();
-            enableEqual();
+        if (e.key == "+" || e.key == "-" || e.key == '*' || e.key == '/') {
             displayedFirst = document.getElementById('display').textContent;
             operation = e.key;
             document.getElementById('display').textContent = '';
+            enableDot();
+            enableEqual();
         }
 
-        if (e.key === "Enter") {
+        if (e.key == "Enter") {
+
 
             if (!document.getElementById('equal').disabled) {
 
-                let displayedSecond = document.getElementById('display').textContent;
+                displayedSecond = document.getElementById('display').textContent;
 
-                if (operation === '+') {
+                if (operation == '+' || operation == 'plus') {
                     document.getElementById('display').textContent = getOperation.add(displayedFirst, displayedSecond);
                 }
 
-                if (operation === '-') {
+                if (operation == '-' || operation == 'minus') {
                     document.getElementById('display').textContent = getOperation.subtract(displayedFirst, displayedSecond);
                 }
 
-                if (operation === '*') {
+                if (operation == '*' || operation == 'cross') {
                     document.getElementById('display').textContent = getOperation.multiply(displayedFirst, displayedSecond);
                 }
 
-                if (operation === '/') {
+                if (operation == '/' || operation == 'slash') {
                     document.getElementById('display').textContent = getOperation.divide(displayedFirst, displayedSecond);
 
                     if (displayedSecond === '0') {
@@ -124,39 +126,47 @@ function operate() {
                     }
                 }
 
+
                 disableEqual();
             }
+
+            e.preventDefault();
+
         }
 
     });
 
     document.getElementById('equal').addEventListener('click', function () {
-        let displayedSecond = document.getElementById('display').textContent;
 
-        if (operation === 'plus') {
-            document.getElementById('display').textContent = getOperation.add(displayedFirst, displayedSecond);
-        }
+        if (!document.getElementById('equal').disabled) {
 
-        if (operation === 'minus') {
-            document.getElementById('display').textContent = getOperation.subtract(displayedFirst, displayedSecond);
-        }
+            displayedSecond = document.getElementById('display').textContent;
 
-        if (operation === 'cross') {
-            document.getElementById('display').textContent = getOperation.multiply(displayedFirst, displayedSecond);
-        }
+            if (operation == 'plus' || operation == '+') {
 
-        if (operation === 'slash') {
-            document.getElementById('display').textContent = getOperation.divide(displayedFirst, displayedSecond);
-
-            if (displayedSecond === '0') {
-                document.getElementById('display').textContent = ':(';
+                document.getElementById('display').textContent = getOperation.add(displayedFirst, displayedSecond);
             }
+
+            if (operation == 'minus' || operation == '-') {
+                document.getElementById('display').textContent = getOperation.subtract(displayedFirst, displayedSecond);
+            }
+
+            if (operation == 'cross' || operation == '*') {
+                document.getElementById('display').textContent = getOperation.multiply(displayedFirst, displayedSecond);
+            }
+
+            if (operation == 'slash' || operation == '/') {
+                document.getElementById('display').textContent = getOperation.divide(displayedFirst, displayedSecond);
+
+                if (displayedSecond == '0') {
+                    document.getElementById('display').textContent = ':(';
+                }
+            }
+
+            disableEqual();
+
         }
-
-        disableEqual();
     });
-
-
 
     enableDot();
 }
